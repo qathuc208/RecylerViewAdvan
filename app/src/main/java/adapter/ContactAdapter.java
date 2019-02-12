@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.MainThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import model.OnLoadMoreListener;
 import study.com.recylerviewadvan.MainActivity;
 import study.com.recylerviewadvan.R;
 import study.com.recylerviewadvan.SubActivity;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Administrator on 21/03/2018.
@@ -105,8 +108,9 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ContactViewHolder contactViewHolder = (ContactViewHolder) view.getTag();
 
         if(view.getId() == contactViewHolder.txtName.getId()) {
-            mContacts.remove(contactViewHolder.getPosition());
-            notifyDataSetChanged();
+            Log.d("abc", "onLongClick: ");
+            /*mContacts.remove(contactViewHolder.getPosition());
+            notifyDataSetChanged();*/
         }
 
     return false;
@@ -129,11 +133,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == VIEW_TYPE_ITEM) {
             View contactView = LayoutInflater.from(mContext).inflate(R.layout.contactitem, parent, false);
 
-            ContactViewHolder contactViewHolder = new ContactViewHolder(contactView);
+            ContactViewHolder contactViewHolder = new ContactViewHolder(contactView, mContext);
             contactViewHolder.txtName.setOnClickListener(ContactAdapter.this);
             contactViewHolder.txtName.setOnLongClickListener(ContactAdapter.this);
 
             contactViewHolder.txtName.setTag(contactViewHolder);
+            contactViewHolder.cardView.setOnLongClickListener((View.OnLongClickListener) mContext);
 
             return contactViewHolder;
         }
@@ -154,6 +159,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             contactViewHolder.txtName.setText(contact.getName());
             contactViewHolder.txtPhone.setText(contact.getPhone());
 
+            if (!mContext.is_action_mode) {
+                ((ContactViewHolder) holder).chk.setVisibility(View.GONE);
+            } else {
+                ((ContactViewHolder) holder).chk.setVisibility(View.VISIBLE);
+                ((ContactViewHolder) holder).chk.setChecked(false);
+            }
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -170,5 +181,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         return mContacts.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+    public void updateAdapter (ArrayList<Contact> list) {
+        for (Contact contact : list) {
+            mContacts.remove(contact);
+        }
+        notifyDataSetChanged();
     }
 }
