@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_selected"
+        android:icon="@drawable/checked"
+        android:title="Selected"
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/item_delete"
-        android:title="Delete"
-        app:showAsAction="always"
         android:icon="@drawable/ic_action_delete"
-        >
-    </item>
+        android:title="Delete"
+        app:showAsAction="always"></item>
 </menu>

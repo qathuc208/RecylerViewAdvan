@@ -14,7 +14,7 @@ import study.com.recylerviewadvan.R;
  * Created by Administrator on 22/03/2018.
  */
 
-public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public TextView txtName, txtPhone;
     public CheckBox chk;
     public CardView cardView;

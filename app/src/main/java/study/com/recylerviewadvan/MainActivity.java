@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import adapter.ContactAdapter;
+import holder.ContactViewHolder;
 import model.Contact;
 import model.OnLoadMoreListener;
 
@@ -143,9 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_delete) {
             is_action_mode = false;
-            ContactAdapter contactAdapterRestore = (ContactAdapter) contactAdapter;
-            contactAdapterRestore.updateAdapter(selection_list);
+/*            ContactAdapter contactAdapterRestore = (ContactAdapter) contactAdapter;
+            contactAdapterRestore.updateAdapter(selection_list);*/
+            contactAdapter.updateAdapter(selection_list);
             clearActionMode();
+        } else if (item.getItemId() == R.id.item_selected) {
+            Log.d("abc","aaaaaaaa");
         } else if (item.getItemId() == android.R.id.home) {
             clearActionMode();
             contactAdapter.notifyDataSetChanged();
@@ -195,8 +199,11 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             selection_list.remove(mContacts.get(pos));
             counter = counter - 1;
             updateCounter(counter);
-
         }
+    }
+
+    public void checkedAll(View v) {
+        ((CheckBox) v).setChecked(true);
     }
 
     public void updateCounter(int counter) {
