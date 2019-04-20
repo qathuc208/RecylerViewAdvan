@@ -5,6 +5,7 @@ import android.support.annotation.MainThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<Contact> mContacts;
     public static  ContactViewHolder contactViewHolder = null;
 
+    private SparseBooleanArray mSelectedItemsIds;
+
     public OnLoadMoreListener getOnLoadMoreListener() {
         return onLoadMoreListener;
     }
@@ -68,6 +71,8 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mContext = mContext;
         this.recyclerView = recyclerView;
         this.mContacts = mContacts;
+
+        mSelectedItemsIds = new SparseBooleanArray();
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
@@ -95,6 +100,35 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
     }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    //Return all selected ids
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -161,12 +195,17 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             contactViewHolder.txtName.setText(contact.getName());
             contactViewHolder.txtPhone.setText(contact.getPhone());
 
-            if (!mContext.is_action_mode) {
-                contactViewHolder.chk.setVisibility(View.GONE);
-            } else {
-                contactViewHolder.chk.setVisibility(View.VISIBLE);
-                contactViewHolder.chk.setChecked(false);
-            }
+                if (!mContext.is_action_mode) {
+                    contactViewHolder.chk.setVisibility(View.GONE);
+                } else {
+                    contactViewHolder.chk.setVisibility(View.VISIBLE);
+                    if(mContext.mCheckAll) {
+                        contactViewHolder.chk.setChecked(true);
+                    } else {
+                        contactViewHolder.chk.setChecked(false);
+                    }
+                }
+
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;

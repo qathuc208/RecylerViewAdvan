@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     Button btnNext;
     android.support.v7.widget.Toolbar toolbar;
     public boolean is_action_mode = false;
+    public boolean mCheckAll = false;
     TextView count;
 
     @Override
@@ -149,7 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             contactAdapter.updateAdapter(selection_list);
             clearActionMode();
         } else if (item.getItemId() == R.id.item_selected) {
-            Log.d("abc","aaaaaaaa");
+            if(!mCheckAll) {
+                mCheckAll = true;
+            } else {
+                mCheckAll = false;
+            }
+            contactAdapter.notifyDataSetChanged();
         } else if (item.getItemId() == android.R.id.home) {
             clearActionMode();
             contactAdapter.notifyDataSetChanged();
@@ -159,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
 
     public void clearActionMode() {
         is_action_mode = false;
+        mCheckAll = false;
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
