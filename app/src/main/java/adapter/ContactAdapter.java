@@ -201,8 +201,4 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         notifyDataSetChanged();
     }
-    public void checkedAll (ArrayList<Contact> list) {
-        contactViewHolder.chk.setChecked(true);
-    }
-
 }

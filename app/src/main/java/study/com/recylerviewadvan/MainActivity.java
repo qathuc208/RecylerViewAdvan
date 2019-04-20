@@ -145,8 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_delete) {
             is_action_mode = false;
-/*            ContactAdapter contactAdapterRestore = (ContactAdapter) contactAdapter;
-            contactAdapterRestore.updateAdapter(selection_list);*/
             contactAdapter.updateAdapter(selection_list);
             clearActionMode();
         } else if (item.getItemId() == R.id.item_selected) {
