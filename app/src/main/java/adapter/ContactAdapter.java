@@ -165,9 +165,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 contactViewHolder.chk.setVisibility(View.GONE);
             } else {
                 contactViewHolder.chk.setVisibility(View.VISIBLE);
-                contactViewHolder.chk.setChecked(false);
+                if(mContext.mCheckAll) {
+                    contactViewHolder.chk.setChecked(true);
+                } else {
+                    contactViewHolder.chk.setChecked(false);
+                }
             }
-
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.mProgressBar.setIndeterminate(true);
@@ -188,6 +191,13 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void updateAdapter (ArrayList<Contact> list) {
         for (Contact contact : list) {
             mContacts.remove(contact);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addAll (ArrayList<Contact> list) {
+        for (Contact contact : list) {
+            mContext.selection_list.add(contact);
         }
         notifyDataSetChanged();
     }

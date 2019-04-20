@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
 
     RecyclerView recyclerView;
     ArrayList<Contact> mContacts = new ArrayList<Contact>();
-    ArrayList<Contact> selection_list = new ArrayList<Contact>();
+    public ArrayList<Contact> selection_list = new ArrayList<Contact>();
     int counter = 0;
 
     ContactAdapter contactAdapter;
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             } else {
                 mCheckAll = false;
             }
+            contactAdapter.addAll(mContacts);
             contactAdapter.notifyDataSetChanged();
         } else if (item.getItemId() == android.R.id.home) {
             clearActionMode();
