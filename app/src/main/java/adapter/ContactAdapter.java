@@ -45,8 +45,6 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<Contact> mContacts;
     public static  ContactViewHolder contactViewHolder = null;
 
-    private SparseBooleanArray mSelectedItemsIds;
-
     public OnLoadMoreListener getOnLoadMoreListener() {
         return onLoadMoreListener;
     }
@@ -71,8 +69,6 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mContext = mContext;
         this.recyclerView = recyclerView;
         this.mContacts = mContacts;
-
-        mSelectedItemsIds = new SparseBooleanArray();
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
@@ -100,35 +96,6 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
     }
-
-    public void toggleSelection(int position) {
-        selectView(position, !mSelectedItemsIds.get(position));
-    }
-
-
-    public void removeSelection() {
-        mSelectedItemsIds = new SparseBooleanArray();
-        notifyDataSetChanged();
-    }
-
-
-    public void selectView(int position, boolean value) {
-        if (value)
-            mSelectedItemsIds.put(position, value);
-        else
-            mSelectedItemsIds.delete(position);
-        notifyDataSetChanged();
-    }
-
-    public int getSelectedCount() {
-        return mSelectedItemsIds.size();
-    }
-
-    //Return all selected ids
-    public SparseBooleanArray getSelectedIds() {
-        return mSelectedItemsIds;
-    }
-
 
     @Override
     public void onClick(View view) {
